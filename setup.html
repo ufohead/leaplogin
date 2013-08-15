@@ -41,9 +41,11 @@ var tArray =[];
 var vArray =[];
 var times = 0;
 var capture = false;
+var compare_result=false;
 var div = document.createElement("div")
 
 document.getElementById('output').innerHTML = 'Press Space to Start';
+
 Leap.loop({enableGestures: true}, function(obj) {
   if (capture) {
     if (obj.gestures.length > 0) {
@@ -58,13 +60,13 @@ Leap.loop({enableGestures: true}, function(obj) {
     )};
   }
   else {
-    
     if(tArray.length!=0){document.getElementById('output').innerHTML = 'Password2:' + tArray;}
     else {document.getElementById('output').innerHTML = 'Press Space to Start';}
 
     if(vArray.length!=0){document.getElementById('result').innerHTML = 'Password1:' + vArray;}
-  }
-});
+    if(tArray.length!=0 && vArray.length!=0) {if(tArray.toString()==vArray.toString()){compare_result = true;} else {compare_result = false;}}
+  } //capture
+}); //Leap.loop
 
 //var outputDiv = document.getElementById("output");
 window.onkeypress = function(e) {
