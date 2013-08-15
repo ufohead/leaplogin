@@ -42,24 +42,34 @@ Leap.loop({enableGestures: true}, function(obj) {
     document.getElementById('output').innerHTML = 'Press Space to Start';
     document.getElementById('result').innerHTML = tArray;
 
-    $.ajax({
-	type: "POST",
-	url: "verify.php",
-	data: { name: "John", location: "Boston" }
-    }).done(function( msg ) {
-	//alert( "Data Saved: " + msg );
-    });
-
   }
 });
 
 //var outputDiv = document.getElementById("output");
 window.onkeypress = function(e) {
   if(e.charCode == 32) {
-    if (capture == false) {capture = true; tArray =[]; window.setTimeout("capture = false;",5000); document.getElementById('output').innerHTML = ''; document.getElementById('result').innerHTML='';}
-    else {capture = false; }    
+    if (capture == false) {
+      capture = true; 
+      tArray =[]; 
+      window.setTimeout("capture = false;timeoutUp(tArray);", 5000); 
+      document.getElementById('output').innerHTML = ''; 
+      document.getElementById('result').innerHTML='';
+    } else {
+      capture = false; 
+    }    
 };};
 
+function timeoutUp(tData) {
+  $.ajax({
+    type: "POST",
+    url: "verify.php",
+    data: { data: tData }
+  }).done(function( msg ) {
+    //alert( "Data Saved: " + msg );
+    // handle response
+  });
+
+}
 
 function output(json) {
   var div = document.createElement("div")
