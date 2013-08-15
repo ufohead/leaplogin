@@ -41,6 +41,15 @@ Leap.loop({enableGestures: true}, function(obj) {
   else {
     document.getElementById('output').innerHTML = 'Press Space to Start';
     document.getElementById('result').innerHTML = tArray;
+
+    $.ajax({
+	type: "POST",
+	url: "verify.php",
+	data: { name: "John", location: "Boston" }
+    }).done(function( msg ) {
+	alert( "Data Saved: " + msg );
+    });
+
   }
 });
 
