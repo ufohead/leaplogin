@@ -124,10 +124,11 @@ window.onkeypress = function(e) {
 };
 
 function sendToServer(tData) {
+  tUser = document.getElementById('user').value;
   $.ajax({
     type: "POST",
     url: "setup.php",
-    data: { data: tData }
+    data: { data: tData, user: tUser }
   }).done(function( msg ) {
     //alert( "Data Saved: " + msg );
     // handle response
