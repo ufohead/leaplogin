@@ -53,7 +53,7 @@ Leap.loop({enableGestures: true}, function(obj) {
 //var outputDiv = document.getElementById("output");
 window.onkeypress = function(e) {
   if(e.charCode == 32) {
-    if (capture == false) {capture = true; window.setTimeout("capture = false;",5000); document.getElementById('output').innerHTML = '';}
+    if (capture == false) {capture = true; tArray =[]; window.setTimeout("capture = false;",5000); document.getElementById('output').innerHTML = ''; document.getElementById('result').innerHTML='';}
     else {capture = false; }    
 };};
 
