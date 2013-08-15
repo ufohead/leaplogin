@@ -4,6 +4,7 @@
 <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 <script src="http://js.leapmotion.com/0.2.0/leap.js"></script>
 <div id="output"></div>
+<div id="result"></div>
 <style>
 html, body {
   width: 100%;
@@ -13,7 +14,7 @@ html, body {
   background: #024;
   color: #fff;
 }
-#output {
+#output,#result {
   font-weight: bold;
   font-size: 100px;
   text-align: center;
@@ -24,31 +25,42 @@ html, body {
 </style>
 <script>
 var tArray =[];
-
+var capture = false;
+document.getElementById('output').innerHTML = 'Press Space to Start';
 Leap.loop({enableGestures: true}, function(obj) {
-  if (obj.gestures.length > 0) {
-    obj.gestures.forEach(function(gesture) {
-      output(gesture);
-    });
+  if (capture) {
+    if (obj.gestures.length > 0) {
+      obj.gestures.forEach(function(gesture) {
+         output(gesture);
+        }
+      )};
+  }
+  else {
+    document.getElementById('output').innerHTML = 'Press Space to Start';
+    document.getElementById('result').innerHTML = tArray;
   }
 });
 
-var outputDiv = document.getElementById("output");
+//var outputDiv = document.getElementById("output");
+window.onkeypress = function(e) {
+  if(e.charCode == 32) {
+    if (capture == false) {capture = true; window.setTimeout("capture = false;",5000); document.getElementById('output').innerHTML = '';}
+    else {capture = false; }    
+};};
+
+
 function output(json) {
   var div = document.createElement("div")
   var jsonobj = jQuery.parseJSON(JSON.stringify(json));
    
   if (jsonobj.type == 'swipe') {
   	var array = JSON.parse("[" + jsonobj.direction + "]");
-  //console.log();
+
 	if      (array[0] >  0.3) {outdata = '右'; if(tArray[tArray.length-1]!='右'){tArray.push('右'); console.log(tArray);}} 
   else if (array[0] < -0.3) {outdata = '左'; if(tArray[tArray.length-1]!='左'){tArray.push('左'); console.log(tArray);}}
   else if (array[1] >  0.3) {outdata = '上'; if(tArray[tArray.length-1]!='上'){tArray.push('上'); console.log(tArray);}}
   else if (array[1] < -0.3) {outdata = '下'; if(tArray[tArray.length-1]!='下'){tArray.push('下'); console.log(tArray);}}
-    //div.innerHTML =  direction;
     document.getElementById('output').innerHTML = outdata;
-    //div.innerHTML = JSON.stringify(json) + "<br/>";
-    //outputDiv.insertBefore(div, outputDiv.firstChild);
   }
   else if (jsonobj.type == 'circle')
   {
@@ -64,8 +76,7 @@ function output(json) {
   };
 */
 
-};
-
+}; //function output
 </script>
 </body>
 </html>
