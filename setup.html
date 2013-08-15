@@ -70,8 +70,16 @@ Leap.loop({enableGestures: true}, function(obj) {
 window.onkeypress = function(e) {
 
   if(e.charCode == 32) {
-    if (capture == false) {capture = true; tArray =[]; window.setTimeout("capture = false;",5000); document.getElementById('output').innerHTML = ''; document.getElementById('result').innerHTML=''; times++;}
-    else {capture = false; }
+    if (capture == false) {
+      capture = true; 
+      tArray =[]; 
+      window.setTimeout("capture = false;timeoutUp(tArray);",5000); 
+      document.getElementById('output').innerHTML = ''; 
+      document.getElementById('result').innerHTML=''; 
+      times++;
+    } else {
+      capture = false; 
+    }
   }
 
   if(e.charCode == 99) {
@@ -83,6 +91,17 @@ window.onkeypress = function(e) {
 
 };
 
+function timeoutUp(tData) {
+  $.ajax({
+    type: "POST",
+    url: "verify.php",
+    data: { data: tData }
+  }).done(function( msg ) {
+    //alert( "Data Saved: " + msg );
+    // handle response
+  });
+
+}
 
 function output(json, oArray) {
   var jsonobj = jQuery.parseJSON(JSON.stringify(json));
