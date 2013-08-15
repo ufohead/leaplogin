@@ -1,0 +1,116 @@
+<html>
+<head>
+<title>Gesture Password Setup</title>
+</head>
+<body>
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script src="http://js.leapmotion.com/0.2.0/leap.js"></script>
+<div id="output"></div>
+<div id="result"></div>
+<style>
+html, body {
+  width: 100%;
+  height:100%;
+  margin: 0;
+  padding: 0;
+  background: #024;
+  color: #fff;
+}
+#output {
+  font-weight: bold;
+  color: white;
+  font-size: 100px;
+  text-align: center;
+  width: 1000px;
+  margin: 0 auto;
+}
+
+#result {
+  font-weight: bold;
+  color: red;
+  font-size: 100px;
+  text-align: center;
+  width: 1000px;
+  margin: 0 auto;
+}
+
+</style>
+<script>
+var tArray =[];
+var vArray =[];
+var times = 0;
+var capture = false;
+var div = document.createElement("div")
+
+document.getElementById('output').innerHTML = 'Press Space to Start';
+Leap.loop({enableGestures: true}, function(obj) {
+  if (capture) {
+    if (obj.gestures.length > 0) {
+      obj.gestures.forEach(function(gesture) {
+        if(times%2 == 0){
+          output(gesture,tArray); // second time
+        }
+        else {
+          output(gesture,vArray); // first time
+        }
+      }
+    )};
+  }
+  else {
+    
+    if(tArray.length!=0){document.getElementById('output').innerHTML = 'Password2:' + tArray;}
+    else {document.getElementById('output').innerHTML = 'Press Space to Start';}
+
+    if(vArray.length!=0){document.getElementById('result').innerHTML = 'Password1:' + vArray;}
+  }
+});
+
+//var outputDiv = document.getElementById("output");
+window.onkeypress = function(e) {
+
+  if(e.charCode == 32) {
+    if (capture == false) {capture = true; tArray =[]; window.setTimeout("capture = false;",5000); document.getElementById('output').innerHTML = ''; document.getElementById('result').innerHTML=''; times++;}
+    else {capture = false; }
+  }
+
+  if(e.charCode == 99) {
+    tArray =[];
+    vArray =[];
+    times = 0;
+    document.getElementById('result').innerHTML='All data clear!';        
+  }
+
+};
+
+
+function output(json, oArray) {
+  var jsonobj = jQuery.parseJSON(JSON.stringify(json));
+   
+  if (jsonobj.type == 'swipe') {
+  	var array = JSON.parse("[" + jsonobj.direction + "]");
+
+	if      (array[0] >  0.3) {outdata = '右'; if(oArray[oArray.length-1]!='右'){oArray.push('右'); console.log(oArray);}} 
+  else if (array[0] < -0.3) {outdata = '左'; if(oArray[oArray.length-1]!='左'){oArray.push('左'); console.log(oArray);}}
+  else if (array[1] >  0.3) {outdata = '上'; if(oArray[oArray.length-1]!='上'){oArray.push('上'); console.log(oArray);}}
+  else if (array[1] < -0.3) {outdata = '下'; if(oArray[oArray.length-1]!='下'){oArray.push('下'); console.log(oArray);}}
+    document.getElementById('output').innerHTML = outdata;
+  }
+  else if (jsonobj.type == 'circle')
+  {
+  	var array = JSON.parse("[" + jsonobj.normal + "]");
+  	if      (array[0] > 0) {outdata = '逆'; if(oArray[oArray.length-1]!='逆'){oArray.push('逆'); console.log(oArray);}}
+    else if (array[0] < 0) {outdata = '順'; if(oArray[oArray.length-1]!='順'){oArray.push('順'); console.log(oArray);}}
+  	document.getElementById('output').innerHTML = outdata;
+  }
+/*
+  else if (jsonobj.type == 'keyTap')
+  {
+  	document.getElementById('output').innerHTML = '點';
+  };
+*/
+
+}; //function output
+</script>
+</body>
+</html>
