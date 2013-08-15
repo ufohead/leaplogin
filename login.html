@@ -23,30 +23,7 @@ html, body {
 
 </style>
 <script>
-/*
-var controller = new Leap.Controller();
-
-controller.on('connect', function() {
-  console.log("Successfully connected.");
-});
-
-controller.on('deviceConnected', function() {
-  console.log("A Leap device has been connected.");
-});
-
-controller.on('deviceDisconnected', function() {
-  console.log("A Leap device has been disconnected.");
-});
-
-controller.connect();
-
-controller.on('deviceFrame', function() {
-
-  console.log("A Leap device running");
-
-});
-*/
-
+var tArray =[];
 
 Leap.loop({enableGestures: true}, function(obj) {
   if (obj.gestures.length > 0) {
@@ -60,27 +37,33 @@ var outputDiv = document.getElementById("output");
 function output(json) {
   var div = document.createElement("div")
   var jsonobj = jQuery.parseJSON(JSON.stringify(json));
-
+   
   if (jsonobj.type == 'swipe') {
   	var array = JSON.parse("[" + jsonobj.direction + "]");
-	if (array[0] > 0.3)
-	{ direction = '向右';} else if (array[0]< -0.3){direction = '向左';}
+  //console.log();
+	if      (array[0] >  0.3) {outdata = '右'; if(tArray[tArray.length-1]!='右'){tArray.push('右'); console.log(tArray);}} 
+  else if (array[0] < -0.3) {outdata = '左'; if(tArray[tArray.length-1]!='左'){tArray.push('左'); console.log(tArray);}}
+  else if (array[1] >  0.3) {outdata = '上'; if(tArray[tArray.length-1]!='上'){tArray.push('上'); console.log(tArray);}}
+  else if (array[1] < -0.3) {outdata = '下'; if(tArray[tArray.length-1]!='下'){tArray.push('下'); console.log(tArray);}}
     //div.innerHTML =  direction;
-    document.getElementById('output').innerHTML = direction;
+    document.getElementById('output').innerHTML = outdata;
     //div.innerHTML = JSON.stringify(json) + "<br/>";
     //outputDiv.insertBefore(div, outputDiv.firstChild);
   }
   else if (jsonobj.type == 'circle')
   {
   	var array = JSON.parse("[" + jsonobj.normal + "]");
-  	if (array[0] > 0) {circle = '逆時針';} else if (array[0] < 0) {circle = '順時針';}
-  	document.getElementById('output').innerHTML = circle;
-
+  	if      (array[0] > 0) {outdata = '逆'; if(tArray[tArray.length-1]!='逆'){tArray.push('逆'); console.log(tArray);}}
+    else if (array[0] < 0) {outdata = '順'; if(tArray[tArray.length-1]!='順'){tArray.push('順'); console.log(tArray);}}
+  	document.getElementById('output').innerHTML = outdata;
   }
+/*
   else if (jsonobj.type == 'keyTap')
   {
-  	document.getElementById('output').innerHTML = '點擊';
+  	document.getElementById('output').innerHTML = '點';
   };
+*/
+
 };
 
 </script>
