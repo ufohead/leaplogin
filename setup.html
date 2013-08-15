@@ -94,7 +94,7 @@ window.onkeypress = function(e) {
 function timeoutUp(tData) {
   $.ajax({
     type: "POST",
-    url: "verify.php",
+    url: "setup.php",
     data: { data: tData }
   }).done(function( msg ) {
     //alert( "Data Saved: " + msg );
