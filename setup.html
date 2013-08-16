@@ -64,7 +64,7 @@ var final_result='';
 var final_result_2='';
 var div = document.createElement("div")
 
-document.getElementById('output').innerHTML = 'Press Space to Start';
+document.getElementById('output').innerHTML = 'Press Space to Setup';
 
 Leap.loop({enableGestures: true}, function(obj) {
   if (capture) {
@@ -94,7 +94,7 @@ Leap.loop({enableGestures: true}, function(obj) {
     if(tArray.length!=0){
       document.getElementById('output').innerHTML = '2nd Input: ' + tArray;
     } else {
-      document.getElementById('output').innerHTML = 'Press Space to Start';
+      document.getElementById('output').innerHTML = 'Press Space to Setup';
     }
 
     if(vArray.length!=0){
