@@ -87,14 +87,14 @@ function output(json) {
   else if (array[1] < -0.3) {outdata = '下'; if(tArray[tArray.length-1]!='下'){tArray.push('下'); console.log(tArray);}}
     document.getElementById('output').innerHTML = outdata;
   }
-  else if (jsonobj.type == 'circle')
+/*  else if (jsonobj.type == 'circle')
   {
   	var array = JSON.parse("[" + jsonobj.normal + "]");
   	if      (array[0] > 0) {outdata = '逆'; if(tArray[tArray.length-1]!='逆'){tArray.push('逆'); console.log(tArray);}}
     else if (array[0] < 0) {outdata = '順'; if(tArray[tArray.length-1]!='順'){tArray.push('順'); console.log(tArray);}}
   	document.getElementById('output').innerHTML = outdata;
   }
-/*
+
   else if (jsonobj.type == 'keyTap')
   {
   	document.getElementById('output').innerHTML = '點';
