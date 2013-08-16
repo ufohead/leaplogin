@@ -59,13 +59,16 @@ var tArray =[];
 var vArray =[];
 var times = 0;
 var capture = false;
-var compare_result=false;
+var compare_result=0;
+var final_result='';
+var final_result_2='';
 var div = document.createElement("div")
 
 document.getElementById('output').innerHTML = 'Press Space to Start';
 
 Leap.loop({enableGestures: true}, function(obj) {
   if (capture) {
+    compare_result = 0;
     if (obj.gestures.length > 0) {
       obj.gestures.forEach(function(gesture) {
         if(times%2 == 0){
@@ -76,24 +79,38 @@ Leap.loop({enableGestures: true}, function(obj) {
         }
       }
     )};
-  } else {
+  }
+  else if (compare_result == 1) 
+  {
+      document.getElementById('output').innerHTML = 'Password setup successful!';
+      document.getElementById('result').innerHTML = 'Password gesture is ' + final_result;
+  }
+  else if (compare_result == 2)
+  {
+      document.getElementById('output').innerHTML = '1th Input: ' + final_result;
+      document.getElementById('result').innerHTML = '2nd Input:' + final_result_2;
+  }
+  else {
     if(tArray.length!=0){
-      document.getElementById('output').innerHTML = 'Password2:' + tArray;
+      document.getElementById('output').innerHTML = '2nd Input: ' + tArray;
     } else {
       document.getElementById('output').innerHTML = 'Press Space to Start';
     }
 
     if(vArray.length!=0){
-      document.getElementById('result').innerHTML = 'Password1:' + vArray;
+      document.getElementById('result').innerHTML = '1st Input: ' + vArray;
     }
     if(tArray.length!=0 && vArray.length!=0) {
       if(tArray.toString()==vArray.toString()){
-        compare_result = true;
+        compare_result = 1;
         sendToServer(tArray);
+        final_result = tArray.toString();
         tArray = [];
         vArray = [];
       } else {
-        compare_result = false;
+        compare_result = 2;
+        final_result = vArray.toString();
+        final_result_2 = tArray.toString();
         tArray = [];
         vArray = [];        
       }
